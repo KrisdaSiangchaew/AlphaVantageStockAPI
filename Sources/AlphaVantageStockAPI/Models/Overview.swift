@@ -33,8 +33,34 @@ public struct Overview {
     public var twoHundredDayMovingAverage: String?
     public var dividendDate: String?
     public var exDividendDate: String?
-    public var errorMessage: String?
-    public var information: String?
+    public var error: DecodeError?
+    
+    init(symbol: String? = nil, assetType: String? = nil, name: String? = nil, description: String? = nil, exchange: String? = nil, currency: String? = nil, country: String? = nil, sector: String? = nil, industry: String? = nil, latestQuarter: String? = nil, marketCapitalization: String? = nil, ebitda: String? = nil, peRatio: String? = nil, pegRatio: String? = nil, dividendPerShare: String? = nil, eps: String? = nil, beta: String? = nil, fiftyTwoWeekHigh: String? = nil, fiftyTwoWeekLow: String? = nil, fiftyDayMovingAverage: String? = nil, twoHundredDayMovingAverage: String? = nil, dividendDate: String? = nil, exDividendDate: String? = nil, error: DecodeError? = nil) {
+        self.symbol = symbol
+        self.assetType = assetType
+        self.name = name
+        self.description = description
+        self.exchange = exchange
+        self.currency = currency
+        self.country = country
+        self.sector = sector
+        self.industry = industry
+        self.latestQuarter = latestQuarter
+        self.marketCapitalization = marketCapitalization
+        self.ebitda = ebitda
+        self.peRatio = peRatio
+        self.pegRatio = pegRatio
+        self.dividendPerShare = dividendPerShare
+        self.eps = eps
+        self.beta = beta
+        self.fiftyTwoWeekHigh = fiftyTwoWeekHigh
+        self.fiftyTwoWeekLow = fiftyTwoWeekLow
+        self.fiftyDayMovingAverage = fiftyDayMovingAverage
+        self.twoHundredDayMovingAverage = twoHundredDayMovingAverage
+        self.dividendDate = dividendDate
+        self.exDividendDate = exDividendDate
+        self.error = error
+    }
 }
 
 extension Overview {
@@ -63,7 +89,6 @@ extension Overview {
         case dividendDate = "DividendDate"
         case exDividendDate = "ExDividendDate"
         case errorMessage = "Error Message"
-        case information = "Information"
     }
 }
 
@@ -93,38 +118,9 @@ extension Overview: Decodable {
         self.twoHundredDayMovingAverage = try container.decodeIfPresent(String.self, forKey: .twoHundredDayMovingAverage)
         self.dividendDate = try container.decodeIfPresent(String.self, forKey: .dividendDate)
         self.exDividendDate = try container.decodeIfPresent(String.self, forKey: .exDividendDate)
-        self.errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
-        self.information = try container.decodeIfPresent(String.self, forKey: .information)
-    }
-}
-
-extension Overview {
-    public init(symbol: String, assetType: String? = nil, name: String, description: String? = nil, exchange: String? = nil, currency: String? = nil, country: String? = nil, sector: String? = nil, industry: String? = nil, latestQuarter: String? = nil, marketCapitalization: String? = nil, ebitda: String? = nil, peRatio: String? = nil, pegRatio: String? = nil, dividendPerShare: String? = nil, eps: String? = nil, beta: String? = nil, fiftyTwoWeekHigh: String? = nil, fiftyTwoWeekLow: String? = nil, fiftyDayMovingAverage: String? = nil, twoHundredDayMovingAverage: String? = nil, dividendDate: String? = nil, exDividendDate: String? = nil, errorMessage: String? = nil, information: String? = nil) {
-        self.symbol = symbol
-        self.assetType = assetType
-        self.name = name
-        self.description = description
-        self.exchange = exchange
-        self.currency = currency
-        self.country = country
-        self.sector = sector
-        self.industry = industry
-        self.latestQuarter = latestQuarter
-        self.marketCapitalization = marketCapitalization
-        self.ebitda = ebitda
-        self.peRatio = peRatio
-        self.pegRatio = pegRatio
-        self.dividendPerShare = dividendPerShare
-        self.eps = eps
-        self.beta = beta
-        self.fiftyTwoWeekHigh = fiftyTwoWeekHigh
-        self.fiftyTwoWeekLow = fiftyTwoWeekLow
-        self.fiftyDayMovingAverage = fiftyDayMovingAverage
-        self.twoHundredDayMovingAverage = twoHundredDayMovingAverage
-        self.dividendDate = dividendDate
-        self.exDividendDate = exDividendDate
-        self.errorMessage = errorMessage
-        self.information = information
+        let errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
+        guard let message = errorMessage else { return }
+        self.error = .error(message)
     }
 }
 

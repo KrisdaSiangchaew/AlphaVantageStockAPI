@@ -9,7 +9,7 @@
 
 import Foundation
 
-public struct Ticker: Decodable {
+public struct GlobalQuoteData: Decodable {
     public var symbol: String?
     public var open: String?
     public var high: String?
@@ -20,9 +20,8 @@ public struct Ticker: Decodable {
     public var previousClose: String?
     public var change: String?
     public var changePercent: String?
-    public var errorMessage: String?
     
-    public init(symbol: String? = nil, open: String? = nil, high: String? = nil, low: String? = nil, price: String? = nil, volume: String? = nil, latestTradingDay: String? = nil, previousClose: String? = nil, change: String? = nil, changePercent: String? = nil, errorMessage: String? = nil) {
+    public init(symbol: String? = nil, open: String? = nil, high: String? = nil, low: String? = nil, price: String? = nil, volume: String? = nil, latestTradingDay: String? = nil, previousClose: String? = nil, change: String? = nil, changePercent: String? = nil) {
         self.symbol = symbol
         self.open = open
         self.high = high
@@ -33,7 +32,6 @@ public struct Ticker: Decodable {
         self.previousClose = previousClose
         self.change = change
         self.changePercent = changePercent
-        self.errorMessage = errorMessage
     }
     
     public init(from decoder: Decoder) throws {
@@ -48,12 +46,10 @@ public struct Ticker: Decodable {
         self.previousClose = try container.decodeIfPresent(String.self, forKey: .previousClose)
         self.change = try container.decodeIfPresent(String.self, forKey: .change)
         self.changePercent = try container.decodeIfPresent(String.self, forKey: .changePercent)
-        
-        self.errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
     }
 }
 
-extension Ticker {
+extension GlobalQuoteData {
     public enum CodingKeys: String, CodingKey {
         case symbol = "01. symbol"
         case open = "02. open"
@@ -65,6 +61,9 @@ extension Ticker {
         case previousClose = "08. previous close"
         case change = "09. change"
         case changePercent = "10. change percent"
-        case errorMessage = "Error Message"
     }
+}
+
+extension GlobalQuote: Identifiable {
+    public var id: UUID { UUID() }
 }
