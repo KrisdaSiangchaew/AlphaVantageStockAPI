@@ -89,6 +89,7 @@ extension Overview {
         case dividendDate = "DividendDate"
         case exDividendDate = "ExDividendDate"
         case errorMessage = "Error Message"
+        case information = "Information"
     }
 }
 
@@ -119,8 +120,15 @@ extension Overview: Decodable {
         self.dividendDate = try container.decodeIfPresent(String.self, forKey: .dividendDate)
         self.exDividendDate = try container.decodeIfPresent(String.self, forKey: .exDividendDate)
         let errorMessage = try container.decodeIfPresent(String.self, forKey: .errorMessage)
-        guard let message = errorMessage else { return }
-        self.error = .error(message)
+        let information = try container.decodeIfPresent(String.self, forKey: .information)
+        
+        if let errorMessage = errorMessage {
+            self.error = .error(errorMessage)
+        }
+        
+        if let information = information {
+            self.error = .information(information)
+        }
     }
 }
 

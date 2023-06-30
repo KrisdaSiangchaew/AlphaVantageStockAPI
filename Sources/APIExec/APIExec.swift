@@ -10,19 +10,19 @@ import AlphaVantageStockAPI
 
 @main
 struct APIExec {
-    enum TimeScale: String {
-        case daily = "TIME_SERIES_DAILY_ADJUSTED"
-        case weekly = "TIME_SERIES_WEEKLY_ADJUSTED"
-        case monthly = "TIME_SERIES_MONTHLY_ADJUSTED"
-    }
-    
     static func main() async {
         let apiKey = ProcessInfo.processInfo.environment["API_KEY"] ?? "demo"
-        try! await getTimeSeries(apiKey: apiKey, duration: .daily)
-        try! await getOverview(apiKey: apiKey)
+//        try! await getTimeSeries(apiKey: apiKey, duration: .daily)
+//        try! await getOverview(apiKey: apiKey)
+        do {
+            let overview = try await AlphaVantageStockAPI(apiKey: apiKey).fetchOverview(symbol: "IBM")
+            print(overview.symbol)
+        } catch {
+            print("\(error.localizedDescription)")
+        }
     }
     
-    static func getTimeSeries(apiKey: String, duration: TimeScale) async throws {
+    static func getTimeSeries(apiKey: String, duration: SeriesRange) async throws {
         let url = URL(string: "https://www.alphavantage.co/query?function=\(duration.rawValue)&symbol=IBM&apikey=\(apiKey)")!
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
