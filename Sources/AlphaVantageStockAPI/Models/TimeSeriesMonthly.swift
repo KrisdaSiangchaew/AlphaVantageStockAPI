@@ -14,7 +14,7 @@ public struct TimeSeriesMontly: Decodable, TimeSeries {
     
     public enum CodingKeys: String, CodingKey {
         case metaData = "Meta Data"
-        case timeSeriesDaily = "Monthly Adjusted Time Series"
+        case timeSeriesDaily = "Monthly Time Series"
     }
     
     public init(from decoder: Decoder) throws {

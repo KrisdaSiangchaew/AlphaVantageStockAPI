@@ -12,11 +12,38 @@ import AlphaVantageStockAPI
 struct APIExec {
     static func main() async {
         let apiKey = ProcessInfo.processInfo.environment["API_KEY"] ?? "demo"
+        let api = AlphaVantageStockAPI(apiKey: apiKey)
 //        try! await getTimeSeries(apiKey: apiKey, duration: .daily)
 //        try! await getOverview(apiKey: apiKey)
         do {
-            let overview = try await AlphaVantageStockAPI(apiKey: apiKey).fetchOverview(symbol: "IBM")
+//            let overview = try await AlphaVantageStockAPI(apiKey: apiKey).fetchOverview(symbol: "IBM")
+//            print(overview.symbol)
+//            let tickers = try await AlphaVantageStockAPI(apiKey: apiKey).tickerSearch(keywords: "osaka")
+//            for ticker in tickers {
+//                print(ticker.symbol)
+//            let (metaData, quotes) = try await AlphaVantageStockAPI(apiKey: apiKey).fetchTimeSeries(symbol: "bkk", range: .monthly)
+//
+//            print(metaData.symbol)
+//            for quote in quotes {
+//                print("\(quote.date): \(quote.quoteData?.open)")
+//            }
+            let searchSymbols = try await api.tickerSearch(keywords: "bkk")
+            print("Search===")
+            for symbol in searchSymbols {
+                print("\(symbol.symbol): \(symbol.name)")
+            }
+            let firstSymbol = searchSymbols.last?.symbol ?? ""
+            let global = try await api.fetchGlobalQuote(symbol: firstSymbol)
+            print("Global===")
+            print(global.data?.symbol)
+            print(global.data?.latestTradingDay)
+            print(global.data?.open)
+            let overview = try await api.fetchOverview(symbol: firstSymbol)
+            print("Overview===")
             print(overview.symbol)
+            print(overview.name)
+            print(overview.country)
+            print(overview.error?.rawValue)
         } catch {
             print("\(error.localizedDescription)")
         }
