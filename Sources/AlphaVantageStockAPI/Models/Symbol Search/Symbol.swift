@@ -20,7 +20,7 @@ public struct Symbol: Decodable {
     public var information: String?
     public var errorMessage: String?
     
-    public init(symbol: String? = nil, name: String? = nil, type: String? = nil, region: String? = nil, marketOpen: String? = nil, marketClose: String? = nil, timeZone: String? = nil, currency: String? = nil, matchScore: String? = nil, errorMessage: String? = nil, information: String?) {
+    public init(symbol: String? = nil, name: String? = nil, type: String? = nil, region: String? = nil, marketOpen: String? = nil, marketClose: String? = nil, timeZone: String? = nil, currency: String? = nil, matchScore: String? = nil, errorMessage: String? = nil, information: String? = nil) {
         self.symbol = symbol
         self.name = name
         self.type = type
