@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Symbol: Decodable {
+public struct Ticker: Decodable {
     public var symbol: String?
     public var name: String?
     public var type: String?
@@ -50,7 +50,7 @@ public struct Symbol: Decodable {
     }
 }
 
-extension Symbol {
+extension Ticker {
     public enum CodingKeys: String, CodingKey {
         case symbol = "1. symbol"
         case name = "2. name"

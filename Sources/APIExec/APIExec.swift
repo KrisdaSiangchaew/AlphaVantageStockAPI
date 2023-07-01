@@ -10,19 +10,46 @@ import AlphaVantageStockAPI
 
 @main
 struct APIExec {
-    enum TimeScale: String {
-        case daily = "TIME_SERIES_DAILY_ADJUSTED"
-        case weekly = "TIME_SERIES_WEEKLY_ADJUSTED"
-        case monthly = "TIME_SERIES_MONTHLY_ADJUSTED"
-    }
-    
     static func main() async {
         let apiKey = ProcessInfo.processInfo.environment["API_KEY"] ?? "demo"
-        try! await getTimeSeries(apiKey: apiKey, duration: .daily)
-        try! await getOverview(apiKey: apiKey)
+        let api = AlphaVantageStockAPI(apiKey: apiKey)
+//        try! await getTimeSeries(apiKey: apiKey, duration: .daily)
+//        try! await getOverview(apiKey: apiKey)
+        do {
+//            let overview = try await AlphaVantageStockAPI(apiKey: apiKey).fetchOverview(symbol: "IBM")
+//            print(overview.symbol)
+//            let tickers = try await AlphaVantageStockAPI(apiKey: apiKey).tickerSearch(keywords: "osaka")
+//            for ticker in tickers {
+//                print(ticker.symbol)
+//            let (metaData, quotes) = try await AlphaVantageStockAPI(apiKey: apiKey).fetchTimeSeries(symbol: "bkk", range: .monthly)
+//
+//            print(metaData.symbol)
+//            for quote in quotes {
+//                print("\(quote.date): \(quote.quoteData?.open)")
+//            }
+            let searchSymbols = try await api.tickerSearch(keywords: "bkk")
+            print("Search===")
+            for symbol in searchSymbols {
+                print("\(symbol.symbol): \(symbol.name)")
+            }
+            let firstSymbol = searchSymbols.last?.symbol ?? ""
+            let global = try await api.fetchGlobalQuote(symbol: firstSymbol)
+            print("Global===")
+            print(global.data?.symbol)
+            print(global.data?.latestTradingDay)
+            print(global.data?.open)
+            let overview = try await api.fetchOverview(symbol: firstSymbol)
+            print("Overview===")
+            print(overview.symbol)
+            print(overview.name)
+            print(overview.country)
+            print(overview.error?.rawValue)
+        } catch {
+            print("\(error.localizedDescription)")
+        }
     }
     
-    static func getTimeSeries(apiKey: String, duration: TimeScale) async throws {
+    static func getTimeSeries(apiKey: String, duration: SeriesRange) async throws {
         let url = URL(string: "https://www.alphavantage.co/query?function=\(duration.rawValue)&symbol=IBM&apikey=\(apiKey)")!
         do {
             let (data, _) = try await URLSession.shared.data(from: url)

@@ -2,19 +2,19 @@
 //  File.swift
 //  
 //
-//  Created by Kris on 29/6/2566 BE.
+//  Created by Kris on 30/6/2566 BE.
 //
 
 import Foundation
 
-public struct TimeSeriesWeekly: Decodable, TimeSeries {
+public struct TimeSeriesMontly: Decodable, TimeSeries {
     public var metaData: MetaData?
     public var quotes: [Quote] = []
     public var error: DecodeError?
     
     public enum CodingKeys: String, CodingKey {
         case metaData = "Meta Data"
-        case timeSeriesDaily = "Weekly Adjusted Time Series"
+        case timeSeriesDaily = "Monthly Time Series"
     }
     
     public init(from decoder: Decoder) throws {
