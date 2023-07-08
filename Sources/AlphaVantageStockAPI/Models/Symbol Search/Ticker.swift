@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Ticker: Decodable {
+public struct Ticker: Codable {
     public var symbol: String?
     public var name: String?
     public var type: String?
