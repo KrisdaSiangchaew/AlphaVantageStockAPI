@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SeriesRange: String {
+public enum SeriesRange: String, CaseIterable {
     case daily = "TIME_SERIES_DAILY_ADJUSTED"
     case weekly = "TIME_SERIES_WEEKLY_ADJUSTED"
     case monthly = "TIME_SERIES_MONTHLY_ADJUSTED"
