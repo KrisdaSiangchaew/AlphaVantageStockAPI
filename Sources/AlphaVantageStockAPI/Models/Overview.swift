@@ -35,7 +35,7 @@ public struct Overview {
     public var exDividendDate: String?
     public var error: DecodeError?
     
-    init(symbol: String? = nil, assetType: String? = nil, name: String? = nil, description: String? = nil, exchange: String? = nil, currency: String? = nil, country: String? = nil, sector: String? = nil, industry: String? = nil, latestQuarter: String? = nil, marketCapitalization: String? = nil, ebitda: String? = nil, peRatio: String? = nil, pegRatio: String? = nil, dividendPerShare: String? = nil, eps: String? = nil, beta: String? = nil, fiftyTwoWeekHigh: String? = nil, fiftyTwoWeekLow: String? = nil, fiftyDayMovingAverage: String? = nil, twoHundredDayMovingAverage: String? = nil, dividendDate: String? = nil, exDividendDate: String? = nil, error: DecodeError? = nil) {
+    public init(symbol: String? = nil, assetType: String? = nil, name: String? = nil, description: String? = nil, exchange: String? = nil, currency: String? = nil, country: String? = nil, sector: String? = nil, industry: String? = nil, latestQuarter: String? = nil, marketCapitalization: String? = nil, ebitda: String? = nil, peRatio: String? = nil, pegRatio: String? = nil, dividendPerShare: String? = nil, eps: String? = nil, beta: String? = nil, fiftyTwoWeekHigh: String? = nil, fiftyTwoWeekLow: String? = nil, fiftyDayMovingAverage: String? = nil, twoHundredDayMovingAverage: String? = nil, dividendDate: String? = nil, exDividendDate: String? = nil, error: DecodeError? = nil) {
         self.symbol = symbol
         self.assetType = assetType
         self.name = name
